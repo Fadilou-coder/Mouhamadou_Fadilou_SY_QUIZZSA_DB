@@ -21,7 +21,7 @@
         <div class="container-fluid bg-white">
             <div class="row">
                 <div class="alert alert-info m-4 col-11 m-xs-0 text-center">
-                    <h5 class="mt-2 ">Vous avez pas encore de compte?<a class="text-info" href="CreerJoueur.php">Inscrivez-vous maintenant !</a></h5>
+                    <h5 class="mt-2 ">Vous avez pas encore de compte?<a class="text-info" href="index.php?lien=creer_jr">Inscrivez-vous maintenant !</a></h5>
                 </div>
             </div>
             <div class="row">

@@ -35,7 +35,7 @@
                             <input type="password" name="password1" placeholder="Confirm Password" class="form-control border border-info form-control-lg rounded mt-3" id="confirm_password">
                             <small class="text-danger" id="error-password1"></small><br>
                             <label class="text-dark">Avatar</label>
-                            <input class="bg-none float-right col-6 col-xs-7" type="file" name="votre_image" id="votre_image"><br>
+                            <input class="bg-none float-right col-5 col-xs-7" type="file" name="votre_image" id="votre_image"><br>
                             <small class="text-danger" id="error-votre_image"></small>
                             <button class="btn btn-info btn-block mt-2" type="submit" name="valider">Creer Compte</button>
                         </form>
