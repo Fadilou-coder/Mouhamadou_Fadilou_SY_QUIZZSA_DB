@@ -12,10 +12,10 @@
         <h2 class="text-center text-white mt-3">Plaisir de Jouer</h2>
     </div>
     <div class="col-6">
-        <div class="row">
+        <div class="row mt-5">
             <div class="col-4 col-xs-12 ml-xs-0 bg-white container">
                 <img class="position-absolute h-100" src="Images/logo-QuizzSA.png"><br>
-                <h2 class="text-center text-warning ml-2">QUIZZ<span class="text-info">SA</span></h2>
+                <h2 class="text-center text-warning ml-4">QUIZZ<span class="text-info">SA</span></h2>
             </div>
         </div>
         <div class="container-fluid bg-white">

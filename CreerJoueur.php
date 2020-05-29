@@ -11,11 +11,11 @@
     <div class="container-fluid position-absolute fixed-top haut">
         <img class="position-absolute h-100" src="Images/logo-QuizzSA.png" alt="">
         <h2 class="text-center text-white mt-3">Plaisir de Jouer</h2>
-    </div>
-    <div class="container">
+    </div><
+    <div class="container mt-5">
         <div class="row mt-5">
             <div class="col-6">
-                <div class="row">
+                <div class="row mt-3">
                     <div class="alert text-white mb-0 mt-4 col-9 blok-ins">
                         <h1 class="ml-3 mb-0">S'INSCRIRE</h1>
                         <p class="ml-3">Pour tester votre niveau de culture général</p>
