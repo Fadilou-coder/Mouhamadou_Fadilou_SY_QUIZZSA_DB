@@ -36,13 +36,21 @@ function showError(input, message) {
     if (input.id !== 'votre_image') {
         input.className = 'form-control border border-danger form-control-lg rounded mt-2';
     } 
+    else{
+        input.className = 'border border-danger bg-none float-right col-md-5 col-8';
+    }
     const small  = document.getElementById('error-'+input.name);
     small.innerText = message;
 }
 //
 function showSuccess(input) {
     const formControl = input;
-    formControl.className = 'form-control border border-success form-control-lg rounded mt-3';
+    if (input.id !== 'votre_image') {
+        formControl.className = 'form-control border border-success form-control-lg rounded mt-3';
+    }
+    else{
+        input.className = 'border border-success bg-none float-right col-md-5 col-8';
+    }
     const small  = document.getElementById('error-'+input.name);
     small.innerText = '';
 }
@@ -54,8 +62,10 @@ function getFiedName(input){
 function checkLength(input, min,max) {
     if (input.value.length < min) {
         showError(input, `${getFiedName(input)} doit etre au moins ${min} caracteres!!!`);
+        error = true;
     }else if (input.value.length > max) {
         showError(input, `${getFiedName(input)} ne doit pas etre plus de ${max} caracteres!!!`);
+        error = true;
     }else{
         showSuccess(input);
     }
@@ -64,6 +74,15 @@ function checkLength(input, min,max) {
 function checkPasswordsMatch(input,input1){
     if (input.value !== input1.value) {
         showError(input1, 'Passwords ne correspondent pas!!!');
+        error = true;
+    }
+}
+
+function loadFile(event){
+    var output = document.getElementById('output');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+    URL.revokeObjectURL(output.src)
     }
 }
 
@@ -86,3 +105,8 @@ form.addEventListener('submit',(e)=>{
         e.preventDefault();
     }
 });
+if (file) {
+    file.addEventListener("change",(e)=>{
+        loadFile(e)
+    }); 
+}

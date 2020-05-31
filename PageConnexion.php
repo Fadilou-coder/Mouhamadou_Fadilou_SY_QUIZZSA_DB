@@ -7,14 +7,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> 
     <link href="style.css" rel="stylesheet" type="text/css">
 </head>
-<body>
-    <div class="container-fluid position-absolute fixed-top haut">
+<body class="p-0 m-0 d-flex justify-content-center">
+    <div class="container-fluid fixed-top haut">
         <h2 class="text-center text-white mt-3">Plaisir de Jouer</h2>
     </div>
-    <div class="col-6">
+    <div class="col-lg-6 col-10 mt-5 ">
         <div class="row mt-5">
-            <div class="col-4 col-xs-12 ml-xs-0 bg-white container">
-                <img class="position-absolute h-100" src="Images/logo-QuizzSA.png"><br>
+            <div class="col-md-5 col-10 bg-white container mt-5 mt-md-0">
+                <img class="position-absolute  h-100" src="Images/logo-QuizzSA.png"><br>
                 <h2 class="text-center text-warning ml-4">QUIZZ<span class="text-info">SA</span></h2>
             </div>
         </div>
