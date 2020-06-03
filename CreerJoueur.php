@@ -1,14 +1,3 @@
-<?php
-// try
-// {
-// $cnx=new PDO('mysql:host=localhost;dbname=QUIZZ-SA','root','');
-// }
-// catch (Exception $e)
-// {
-//     die('Error'.$e->getMessage());
-// }
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,11 +49,12 @@
             </div>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="public/js/script.js"></script>
 </body>
 </html>
 
 <?php
+include('data/data.php');
 if(isset($_POST['valider'])){
     if(!empty($_POST['prenom']) && !empty($_POST['nom']) && !empty($_POST['login']) && !empty($_POST['password1']) &&  !empty($_POST['password'])){
        $login = $_POST['login'];
@@ -84,26 +74,25 @@ if(isset($_POST['valider'])){
                $profil = $chemin.$profil;
            
                if($Type != "jpg" && $Type != "png" && $Type != "jpeg") {
-                   echo "Désolé, les fichiers JPG, JPEG, PNG & GIF sont autorisés.";
+                   echo "Désolé, les fichiers JPG, JPEG, PNG sont autorisés.";
                    $uploadOk = 0;
                }
            
                if ($uploadOk == 0) {
-                   echo "<br/><strong>Désolé, Votre photo n'est pas téléchargé.</strong>";
+                   echo '<strong class="fixed-bottom mb-lg-4 text-danger">Désolé, Votre photo n`est pas téléchargé.</strong>';
            
                } else {
                    if (move_uploaded_file($_FILES["votre_image"]["tmp_name"], $profil)) {
-                        // $req=$cnx->prepare('INSERT INTO joueur(Id,Prenom,Nom,Login,Password,Profil) VALUES(?,?,?,?,?,?)');
-                        // $req->execute(array(null, $prenom, $nom, $login, $password, $profil)) ;
-                       header('location: index.php');
+                        creer_user($prenom, $nom, $login, $password, $profil, 'user');
+                        header('location: index.php');
                    } else {
-                       echo "<br/><strong>Désolé, Erreur de téléchargement du photo.</strong>";
+                       echo '<strong class="fixed-bottom mb-lg-4 text-danger">Désolé, Erreur de téléchargement du photo.</strong>';
                    }
                }
                
            }
            else{
-               echo " <center><strong>Ce login existe deja!!!.</strong></center>";
+               echo ' <center><strong class="fixed-bottom mb-lg-4 text-danger">Ce login existe deja!!!.</strong></center>';
            }
            
        }

@@ -1,3 +1,6 @@
+<?php
+include('data/data.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,6 +47,19 @@
     </div>
 
 
-    <script src="script.js"></script>
+    <script src="public/js/script.js"></script>
 </body>
 </html>
+
+
+<?php
+if(isset($_POST['valider'])){
+    if(!empty($_POST['login']) && !empty($_POST['password'])){
+        $login = $_POST['login'];
+        $password = $_POST['password'];
+        connexion($login, $password);
+    }
+
+}
+
+?>

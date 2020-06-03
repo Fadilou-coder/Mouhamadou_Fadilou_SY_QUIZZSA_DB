@@ -13,6 +13,9 @@
             case 'liste_ad':
                 require_once("ListeAdmins.php");
                 break;
+            case 'int_jr':
+                require_once("interfaceUser.php");
+                break;
         }
     }
     else{

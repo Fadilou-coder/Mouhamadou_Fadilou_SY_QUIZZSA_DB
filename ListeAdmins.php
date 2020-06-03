@@ -1,4 +1,5 @@
 <?php
+include('data/data.php');
 if (isset($_POST['deconnexion'])) {
     header('location: deconnexion.php');
 }
