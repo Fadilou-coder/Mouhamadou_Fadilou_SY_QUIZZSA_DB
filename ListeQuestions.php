@@ -9,9 +9,9 @@ if (isset($_POST['deconnexion'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste Joueurs</title>
-    <link rel="stylesheet" href="public/css/bootstrap.min.css">
+    <title>Liste Questions</title>
     <link href="public/css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="public/css/bootstrap.min.css">
 </head>
 <body class="m-0 p-0" id="body">
     <div class="container-fluid fixed-top haut">
@@ -31,16 +31,16 @@ if (isset($_POST['deconnexion'])) {
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul class=" navbar-nav mr-auto bg-white">
                                     <li class="nav-item">
-                                        <a class="navbar-brand" href="index.php?lien=CreerAdmin">Creer Admin <span class="sr-only">(current)</span></a>
+                                        <a class="navbar-brand" href="">Creer Admin <span class="sr-only">(current)</span></a>
                                     </li>
-                                    <li class="nav-item active border border-info mr-3">
-                                        <a class="navbar-brand  text-info ml-3" href="index.php?lien=liste_jr">Liste Joueur</a>
+                                    <li class="nav-item">
+                                        <a class="navbar-brand" href="index.php?lien=liste_jr">Liste Joueur</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="navbar-brand" href="index.php?lien=creer_qst">Creer Questions</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="navbar-brand" href="index.php?lien=liste_qst">Liste Questions</a>
+                                    <li class="nav-item active border border-info mr-3">
+                                        <a class="navbar-brand text-info ml-3" href="index.php?lien=liste_qst">Liste Questions</a>
                                     </li>
                                     <li class=" nav-item">
                                         <a class="navbar-brand" href="#">Tableau de Bord</a>
@@ -67,32 +67,28 @@ if (isset($_POST['deconnexion'])) {
             <div class="container-fluid mt-5">
                 <div class="container mt-5 bg-light">
                     <div class="row mt-5">
-                        <h1 class="container mt-5 text-center text-info">LISTE DES JOUEURS PAR SCORE</h1>
+                        <h1 class="container mt-5 text-center text-info">LISTE DES QUESTIONS</h1>
                     </div>
                     <div class="container row">
                         <div class="container">
                             <div class="container alert text-white mb-0 border border-info">
-                                <table class="table" id="table">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-dark border border-0">Prénom: </th>
-                                            <th class="text-dark border-0">Nom: </th>
-                                            <th class="text-dark text-center border-0">Score: </th>
-                                        </tr>
-                                        <tbody id="thead">
-                                            <tr class="mb-0">
-                                                <td class="text-dark border border-0"></td>
-                                                <td class="text-dark border border-0"></td>
-                                                <td class="text-dark text-center border border-0"></td>
-                                            </tr>
-                                        </tbody>
-                                    </thead>
-
-                                </table>
+                                
                                 <div class="row">
                                     <div class="container">
-                                        <button id="suiv" class="btn btn-info float-right" name="suivant">Suivant</button>
-                                        <button id="prec" class="btn btn-info float-left" name="prec">Précédant</button>
+                                        <div id="qst">
+                                            <h1 class="text-dark text">Les Langages Web</h1>
+                                        </div>
+                                            <div id="rps">
+                                                <input type="checkbox"><label class="text-dark">HTML</label><br>
+                                                <input type="checkbox"><label class="text-dark">R</label><br>
+                                                <input type="checkbox"><label class="text-dark">PHP</label>
+                                            </div>
+                                        <div class="row">
+                                            <div class="container">
+                                                <button id="suiv" class="btn btn-info float-right" name="suivant">Suivant</button>
+                                                <button id="prec" class="btn btn-info float-left" name="prec">Précédant</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -107,6 +103,7 @@ if (isset($_POST['deconnexion'])) {
 
 
 
+    
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -115,29 +112,43 @@ if (isset($_POST['deconnexion'])) {
 </body>
 </html>
 
-
 <script>
+var qts;
+var rsp;
 var offset = 0;
 var nbre_jr
     $(document).ready(function(){
-        const thead = $('#thead');
+        const qst = $('#qst');
+        const rps = $('#rps');
         $.ajax({
                 type: "POST",
-                url: "http://localhost/php/data/getnbrUsers.php",
+                url: "http://localhost/php/data/getnbrqst.php",
                 data: {},
                 dataType: "JSON",
-                success: function (data) {
+                success: function (data)
+                {
                     nbre_jr = data.length - 5;
                 }
         });
         $.ajax({
                 type: "POST",
-                url: "http://localhost/php/data/getusers.php",
+                url: "http://localhost/php/data/getqst.php",
                 data: {limit:5,offset:offset},
                 dataType: "JSON",
                 success: function (data) {
-                    thead.html('')
-                    afficher(data,thead);
+                    qst.html('')
+                    qts = data;
+                }
+        });
+        $.ajax({
+                type: "POST",
+                url: "http://localhost/php/data/getrps.php",
+                data: {limit:5,offset:offset},
+                dataType: "JSON",
+                success: function (data) {
+                    rps.html('')
+                    rsp = data
+                    afficher(qts, rsp, qst)
                 }
         });
         
@@ -147,33 +158,54 @@ var nbre_jr
                 offset +=5;
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost/php/data/getusers.php",
+                    url: "http://localhost/php/data/getqst.php",
                     data: {limit:5,offset:offset},
                     dataType: "JSON",
                     success: function (data) {
-                        thead.html('')
-                        afficher(data,thead);
+                        qst.html('')
+                        qts = data;
                         
                     }
+                });
+                $.ajax({
+                        type: "POST",
+                        url: "http://localhost/php/data/getrps.php",
+                        data: {limit:5,offset:offset},
+                        dataType: "JSON",
+                        success: function (data) {
+                            rps.html('')
+                            rsp = data
+                            afficher(qts, rsp, qst)
+                        }
                 });
             })
             $('#prec').click(function(e){
                 offset -=5;
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost/php/data/getusers.php",
+                    url: "http://localhost/php/data/getqst.php",
                     data: {limit:5,offset:offset},
                     dataType: "JSON",
                     success: function (data) {
-                        thead.html('')
-                        afficher(data,thead);
+                        qst.html('')
+                        qts = data;
                         
                     }
                 });
+                $.ajax({
+                        type: "POST",
+                        url: "http://localhost/php/data/getrps.php",
+                        data: {limit:5,offset:offset},
+                        dataType: "JSON",
+                        success: function (data) {
+                            rps.html('')
+                            rsp = data
+                            afficher(qts, rsp, qst)
+                        }
+                });
             })
     });
-
-function afficher(data,thead){
+function afficher(qts,rps,qst){
         if (offset == 0) {
             $('#prec').css('display','none')
         }
@@ -186,14 +218,42 @@ function afficher(data,thead){
         else{
             $('#suiv').css('display','block')
         }
-        $.each(data, function(indice,joueur){
-                thead.append(`
-                <tr class="mb-0">
-                    <td class="text-dark border border-0">${joueur.prenom}</td>
-                    <td class="text-dark border border-0">${joueur.nom}</td>
-                    <td class="text-dark text-center border border-0">${joueur.score} pts</td>
-                </tr>
-            `);
-        });
+        var i = 0;
+        for(const t of qts){
+                var line =`
+                <h1 class="text-dark text">${t.question}</h1>''
+            `;
+            if (rps[i].rep3 == '' && t.type !== 'choixT') {
+                if(t.type === 'choixM'){
+                    var reps = `<div class="ml-3"><input type="checkbox"><label class="text-dark">${rps[i].rep1}</label><br>
+                                <input type="checkbox"><label class="text-dark">${rps[i].rep2}</label><br>`
+                }else{
+                        var reps = `<div class="ml-3"><input type="radio"><label class="text-dark">${rps[i].rep1}</label><br>
+                                <input type="radio"><label class="text-dark">${rps[i].rep2}</label><br>`
+                }
+            }
+            else{
+                if(t.type === 'choixM'){
+                    var reps = `<div class="ml-3"><input type="checkbox"><label class="text-dark">${rps[i].rep1}</label><br>
+                                <input type="checkbox"><label class="text-dark">${rps[i].rep2}</label><br>
+                                <input type="checkbox"><label class="text-dark">${rps[i].rep3}</label></div>`
+                }else{
+                    if(t.type === 'choixS'){
+                        var reps = `<div class="ml-3"><input type="radio"><label class="text-dark">${rps[i].rep1}</label><br>
+                                <input type="radio"><label class="text-dark">${rps[i].rep2}</label><br>
+                                <input type="radio"><label class="text-dark">${rps[i].rep3}</label></div>`
+                    }else{
+                        var reps = `<div class="col-2 ml-3 border boder-info text-dark mb-2">${rps[i].rep1}</div>`;
+                    }
+
+                }
+            }
+
+            qst.append(line,reps);
+            i++;
+
+
+        }
 }
+
 </script>

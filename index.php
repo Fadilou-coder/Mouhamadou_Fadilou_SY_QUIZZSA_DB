@@ -16,6 +16,12 @@
             case 'int_jr':
                 require_once("interfaceUser.php");
                 break;
+            case 'creer_qst':
+                require_once("CreerQuestions.php");
+                break;
+            case 'liste_qst':
+                require_once("ListeQuestions.php");
+                break;
         }
     }
     else{

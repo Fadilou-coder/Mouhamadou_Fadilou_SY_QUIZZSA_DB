@@ -1,23 +1,58 @@
 <?php
 
 function connect_bd(){
-    try{
-        return $cnx = new PDO('mysql:host=mysql-mfs-quizzsa-db.alwaysdata.net;dbname=mfs-quizzsa-db_quizz-sa','207805','Zeumb645');
-    }
-    catch (Exception $e){
-        die('Error'.$e->getMessage());
-    }
-}
 
+    $dbhost = 'localhost';
+    $dbname = 'quizz-sa';
+    $dbuser = 'root';
+    $dbpswd = '';
+    try{
+        $cnx = new PDO('mysql:host='.$dbhost.';dbname='.$dbname,$dbuser,$dbpswd,
+        array(
+            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING
+            )
+        );
+    }catch (PDOException $e){
+        die("Une erreur est survenue lors de la connexion à la Base de données !");
+    }
+    return $cnx;
+}
+function resharch($login){
+    $joueurs = connect_bd()->prepare('SELECT * FROM joueur');
+    $joueurs->execute();
+    $joueurs = $joueurs->fetchAll();
+    $admins = connect_bd()->prepare('SELECT * FROM admin');
+    $admins->execute();
+    $admins = $admins->fetchAll();
+    for ($i=0; $i < count($joueurs) ; $i++) { 
+        if($joueurs[$i]['login'] == $login){
+            return 0;
+        }
+    }
+    for ($i=0; $i < count($admins) ; $i++) { 
+        if($admins[$i]['login'] == $login){
+            return 0;
+        }
+    }
+    return 1;
+}
 function creer_user($prenom, $nom, $login, $password, $profil, $table){
+    if (resharch($login) == 0) {
+        return 0;
+    }
+       
     if ($table === 'user') {
-        $req=connect_bd()->prepare('INSERT INTO joueur(Id,Prenom,Nom,Login,Password,Profil) VALUES(?,?,?,?,?,?)');
-        $req->execute(array(null, $prenom, $nom, $login, $password, $profil));
+        $req=connect_bd()->prepare('INSERT INTO joueur(id,prenom,nom,login,password,profil,score) VALUES(?,?,?,?,?,?,?)');
+        $req->execute(array(null, $prenom, $nom, $login, $password, $profil,0));
+        header('location: index.php');
     }
     else{
-        $req=connect_bd()->prepare('INSERT INTO admin(Id,Prenom,Nom,Login,Password,Profil) VALUES(?,?,?,?,?,?)');
+        $req=connect_bd()->prepare('INSERT INTO admin(id,prenom,nom,login,password,profil) VALUES(?,?,?,?,?,?)');
         $req->execute(array(null, $prenom, $nom, $login, $password, $profil));
+        
     }
+    
 }
 
 function connexion($login,$password){
@@ -30,21 +65,21 @@ function connexion($login,$password){
     $user = "";
 
     for ($i=0; $i < count($joueurs) ; $i++) { 
-        if($joueurs[$i]['Login'] == $login && $joueurs[$i]['Password'] == $password){
+        if($joueurs[$i]['login'] == $login && $joueurs[$i]['password'] == $password){
             $user = "user";
-            $login = $joueurs[$i]['Login'];
-            $prenom = $joueurs[$i]['Prenom'];
-            $nom = $joueurs[$i]['Nom'];
-            $profil = $joueurs[$i]['Profil'];
+            $login = $joueurs[$i]['login'];
+            $prenom = $joueurs[$i]['prenom'];
+            $nom = $joueurs[$i]['nom'];
+            $profil = $joueurs[$i]['profil'];
             break;
         }
     }
     for ($i=0; $i < count($admins) ; $i++) {
-        if ($admins[$i]['Login'] == $login && $admins[$i]['Password'] == $password) {
+        if ($admins[$i]['login'] == $login && $admins[$i]['password'] == $password) {
             $user = "admin";
-            $prenom = $admins[$i]['Prenom'];
-            $nom = $admins[$i]['Pom'];
-            $profil = $admins[$i]['Profil'];
+            $prenom = $admins[$i]['prenom'];
+            $nom = $admins[$i]['nom'];
+            $profil = $admins[$i]['profil'];
             break;
         }
                                 
@@ -68,9 +103,40 @@ function connexion($login,$password){
             header('location: index.php?lien=CreerAdmin');
         }
         else{
-            echo ' <center><strong class="fixed-bottom mb-lg-4 text-danger">Login ou mot de passe incorrecte</strong></center>';
+            return 0;
         }
     }
 } 
+
+function creer_qst($question, $score, $type, $reponse, $vrai){
+    $req=connect_bd()->prepare('INSERT INTO questions VALUES(?,?,?,?)');
+    $req->execute(array(null, $question, $score, $type));
+    if ($type == 'choixT') {
+        $req=connect_bd()->prepare('INSERT INTO reponses VALUES(?,?,?,?)');
+        $req->execute(array(null, $reponse,'', ''));
+    }else{
+            for ($i=0; $i < 3 ; $i++) { 
+                
+                if (isset($reponse[$i])) {
+                    $rps[$i] = $reponse[$i];
+                }else{
+                    $rps[$i] = '';
+                }
+                if (isset($vrai[$i])) {
+                    $vr[$i] = $vrai[$i];
+                }else{
+                    $vr[$i] = '';
+                }
+            }
+            $req=connect_bd()->prepare('INSERT INTO reponses VALUES(?,?,?,?)');
+            $req->execute(array(null, $rps[0],$rps[1], $rps[2]));
+            $req = connect_bd()->query('SELECT LAST_INSERT_ID() FROM reponses');
+            $result = $req->fetchAll();
+            $result = count($result);
+            $req1=connect_bd()->prepare('INSERT INTO rep_vrai VALUES(?,?,?,?)');
+            $req1->execute(array($result, $vr[0],$vr[1],$result));
+    }
+    echo 'success';
+}
 
 ?>
