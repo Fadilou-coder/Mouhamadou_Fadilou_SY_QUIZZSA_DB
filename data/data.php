@@ -2,10 +2,10 @@
 
 function connect_bd(){
 
-    $dbhost = 'localhost';
-    $dbname = 'quizz-sa';
-    $dbuser = 'root';
-    $dbpswd = '';
+    $dbhost = 'mysql-mfs-quizzsa-db.alwaysdata.net';
+    $dbname = 'mfs-quizzsa-db_quizz-sa';
+    $dbuser = '207805';
+    $dbpswd = 'Zeumb645';
     try{
         $cnx = new PDO('mysql:host='.$dbhost.';dbname='.$dbname,$dbuser,$dbpswd,
         array(
